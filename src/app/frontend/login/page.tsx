@@ -2,19 +2,20 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Import useRouter from next/navigation
-import BackGroudApp from '../../../components/luyout';
+import BackGroudApp, { BackGroudAppFront } from '../../../../components/layout';
+import TopBar from '../../../../components/TopBar';
 
-
-const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
+const FrontPage: React.FC = () => {
+  const [emailOrUsername, setemailOrUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const router = useRouter();
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setMessage('');
-    console.log(email, password);
+    console.log(emailOrUsername, password);
 
     try {
       const response = await fetch('http://localhost:3001/auth/login', {
@@ -23,7 +24,7 @@ const LoginPage: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: email,
+          emailOrUsername: emailOrUsername,
           password: password,
         }),
       });
@@ -33,13 +34,13 @@ const LoginPage: React.FC = () => {
         setMessage('เข้าสู่ระบบสำเร็จ!');
         console.log('Login successful:', data);
 
-        if (data.access_token) {
-          localStorage.setItem('access_token', data.access_token);
-          console.log('Access Token stored in localStorage:', data.access_token);
-        } else { 
-          console.warn('Backend did not return an access_token.');
+        if (data.user_access_token) {
+          localStorage.setItem('user_access_token', data.user_access_token);
+          console.log('Access Token stored in localStorage:', data.user_access_token);
+        } else {
+          console.warn('Backend did not return an user_access_token.');
         }
-        router.push('/home');
+        router.push('/frontend/home');
       } else {
         setMessage(data.message || 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');
         console.error('Login failed:', data);
@@ -49,28 +50,28 @@ const LoginPage: React.FC = () => {
       console.error('Network error or unexpected error:', error);
     }
   };
-
+  
   return (
-    <BackGroudApp>
+    <BackGroudAppFront>
       <div className="max-w-md w-full bg-white p-8 rounded-xl shadow-2xl space-y-8">
         <h2 className="text-4xl font-extrabold text-center text-gray-900">
           เข้าสู่ระบบ
         </h2>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div>
-            <label htmlFor="email" className="sr-only">
+            <label htmlFor="emailOrUsername" className="sr-only">
               อีเมล
             </label>
             <input
-              id="email"
-              name="email"
+              id="emailOrUsername"
+              name="emailOrUsername"
               type="text"
-              autoComplete="email"
+              autoComplete="emailOrUsername"
               required
               className="appearance-none rounded-md relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-lg"
               placeholder="อีเมล"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={emailOrUsername}
+              onChange={(e) => setemailOrUsername(e.target.value)}
             />
           </div>
           <div>
@@ -99,15 +100,15 @@ const LoginPage: React.FC = () => {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-lg font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105"
             >
               เข้าสู่ระบบ
             </button>
           </div>
         </form>
       </div>
-    </BackGroudApp>
+    </BackGroudAppFront>
   );
 };
 
-export default LoginPage;
+export default FrontPage;

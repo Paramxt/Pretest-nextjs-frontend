@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import BackGroudApp from '../../../components/luyout';
-import { Edit, HeartPlus, Search, Vote, X } from 'lucide-react';
+import BackGroudApp from '../../../components/layout';
+import { Edit, HeartPlus, Search, Trash, Vote, X } from 'lucide-react';
 import dynamic from 'next/dynamic'
 
 interface Quote {
@@ -28,11 +28,10 @@ const MainPage: React.FC = () => {
   const [showEditQuoteModal, setShowEditQuoteModal] = useState(false);
   const [editQuoteId, setEditQuoteId] = useState<string | null>(null);
   const [editQuoteText, setEditQuoteText] = useState<string>('');
-  const [showVoteConfirmModal, setShowVoteConfirmModal] = useState(false);
-  const [voteQuoteId, setVoteQuoteId] = useState<string | null>(null);
   const [quotesToShow, setQuotesToShow] = useState<number>(QUOTES_PER_PAGE);
-  const [filterVotes, setFilterVotes] = useState<string>('all'); // New state for vote filtering
-
+  const [filterVotes, setFilterVotes] = useState<string>('all');
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [deleteQuoteId, setDeleteQuoteId] = useState<string | null>(null);
 
 
   const router = useRouter();
@@ -185,46 +184,6 @@ const MainPage: React.FC = () => {
     }
   }
 
-  const handleVote = (quoteId: string) => {
-    setVoteQuoteId(quoteId);
-    setShowVoteConfirmModal(true);
-  };
-
-  const handleCancelVote = () => {
-    setShowVoteConfirmModal(false);
-    setVoteQuoteId(null);
-  };
-
-  const handleConfirmVote = async () => {
-    if (!voteQuoteId) return;
-    const access_token = localStorage.getItem('access_token');
-    if (!access_token) {
-      alert('ไม่พบ Access Token กรุณาเข้าสู่ระบบใหม่');
-      return;
-    }
-    try {
-      const response = await fetch(`http://localhost:3001/qoute/vote/${voteQuoteId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${access_token}`,
-        },
-      });
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || 'เกิดข้อผิดพลาดในการโหวต');
-      }
-      setShowVoteConfirmModal(false);
-      setVoteQuoteId(null);
-      fetchAndProcessQuotes();
-      alert('โหวตสำเร็จ!');
-    } catch (err: any) {
-      setShowVoteConfirmModal(false);
-      setVoteQuoteId(null);
-      alert('คุณได้ทำการโหวตคำคมไปแล้ว : 1 ผู้ใช้สามารถโหวตได้เพียง 1 คำคมเท่านั้น');
-    }
-  };
-
   const handleSearchClick = () => {
     fetchAndProcessQuotes();
   };
@@ -276,6 +235,46 @@ const MainPage: React.FC = () => {
 
   const handleShowLess = () => {
     setQuotesToShow(QUOTES_PER_PAGE);
+  };
+
+  const handleDelete = (quoteId: string) => {
+    setDeleteQuoteId(quoteId);
+    setShowDeleteConfirmModal(true);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmModal(false);
+    setDeleteQuoteId(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteQuoteId) return;
+    const access_token = localStorage.getItem('access_token');
+    if (!access_token) {
+      alert('ไม่พบ Access Token กรุณาเข้าสู่ระบบใหม่');
+      return;
+    }
+    try {
+      const response = await fetch(`http://localhost:3001/qoute/delete/${deleteQuoteId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${access_token}`,
+        },
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || 'เกิดข้อผิดพลาดในการโหวต');
+      }
+      setShowDeleteConfirmModal(false);
+      setDeleteQuoteId(null);
+      fetchAndProcessQuotes();
+      alert('ลบสำเร็จ!');
+    } catch (err: any) {
+      setShowDeleteConfirmModal(false);
+      setDeleteQuoteId(null);
+      // alert('คุณได้ทำการโหวตคำคมไปแล้ว : 1 ผู้ใช้สามารถโหวตได้เพียง 1 คำคมเท่านั้น');
+    }
   };
 
   if (loading) {
@@ -405,13 +404,12 @@ const MainPage: React.FC = () => {
                   >
                     <Edit className="w-6 h-6" color='#000000' />
                   </button>
-
                   <button
-                    onClick={() => handleVote(quote.id)}
-                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-green-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                    title="โหวต Quote"
+                    onClick={() => handleDelete(quote.id)}
+                    className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                    title="ลบ Quote"
                   >
-                    <HeartPlus className="w-6 h-6" color='#000000' />
+                    <Trash className="w-6 h-6" color='#000000' />
                   </button>
                 </div>
               </div>
@@ -518,22 +516,22 @@ const MainPage: React.FC = () => {
           </div>
         )}
 
-        {showVoteConfirmModal && (
+        {showDeleteConfirmModal && (
           <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-gray-700/60">
             <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md min-w-[400px] text-center">
-              <h2 className="text-xl font-bold text-black mb-4">ยืนยันการโหวต</h2>
-              <p className="mb-6 text-black">1 ผู้ใช้สามารถโหวตได้เพียง 1 บทความเท่านั้น<br />คุณต้องการโหวตบทความนี้ใช่หรือไม่?</p>
+              <h2 className="text-xl font-bold text-black mb-4">ยืนยันการลบ</h2>
+              <p className="mb-6 text-black">คุณต้องการลบคำคมนี้ใช่หรือไม่?</p>
               <div className="flex justify-center space-x-3">
                 <button
                   type="button"
-                  onClick={handleCancelVote}
+                  onClick={handleCancelDelete}
                   className="px-5 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition-colors duration-200"
                 >
                   ไม่
                 </button>
                 <button
                   type="button"
-                  onClick={handleConfirmVote}
+                  onClick={handleConfirmDelete}
                   className="px-5 py-2 bg-blue-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200"
                 >
                   ใช่

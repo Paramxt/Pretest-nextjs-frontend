@@ -1,17 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import Layout from '../../../components/luyout';
+import Layout from '../../../components/layout';
 import Sidebar from '../../../components/Sidebar';
 import MainPage from '../main/page';
 import DashboardPage from '../dashboard/page';
-
+    
 const Page = () => {
     const [selectedPageIndex, setSelectedPageIndex] = useState(0);
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
-        window.location.href = '/login';
+        localStorage.removeItem('user_access_token');
+         console.log('Logged out and token removed.');
+        window.location.href = '/';
     };
 
     const handlePageSelect = (index: number) => {

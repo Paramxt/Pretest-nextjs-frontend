@@ -180,9 +180,6 @@ const DashboardPage = () => { // Removed async keyword
         <div className="p-6 space-y-8">
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
-                <p className="text-gray-600">
-                    ข้อมูลสถิติและการวิเคราะห์ Quote System
-                </p>
             </div>
 
             {/* Summary Cards */}
