@@ -30,9 +30,8 @@ export default function Home() {
 
       if (response.ok && data.access_token) {
         setMessage('เข้าสู่ระบบสำเร็จ!');
-        console.log('Login successful:', data);
         localStorage.setItem('access_token', data.access_token);
-        console.log('Access Token stored in localStorage:', data.access_token);
+        // console.log('Access Token stored in localStorage:', data.access_token);
         router.push('/home');
 
       } else {

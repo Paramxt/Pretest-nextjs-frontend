@@ -15,7 +15,7 @@ const FrontPage: React.FC = () => {
     e.preventDefault();
 
     setMessage('');
-    console.log(emailOrUsername, password);
+    // console.log(emailOrUsername, password);
 
     try {
       const response = await fetch('http://localhost:3001/auth/login', {
@@ -32,11 +32,10 @@ const FrontPage: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage('เข้าสู่ระบบสำเร็จ!');
-        console.log('Login successful:', data);
 
         if (data.user_access_token) {
           localStorage.setItem('user_access_token', data.user_access_token);
-          console.log('Access Token stored in localStorage:', data.user_access_token);
+          // console.log('Access Token stored in localStorage:', data.user_access_token);
         } else {
           console.warn('Backend did not return an user_access_token.');
         }

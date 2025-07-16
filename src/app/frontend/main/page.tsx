@@ -117,7 +117,7 @@ const MainPage: React.FC = () => {
 
       setQuotesToShow(QUOTES_PER_PAGE);
       setQuotes(processedData);
-      console.log("Process Data : ", processedData);
+      // console.log("Process Data : ", processedData);
     } catch (err: any) {
       console.error('Error fetching quotes:', err);
       setError(`เกิดข้อผิดพลาดในการดึงข้อมูล Quote: ${err.message}`);

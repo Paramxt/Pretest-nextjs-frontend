@@ -16,7 +16,7 @@ const RegisterPage: React.FC = () => {
         e.preventDefault();
 
         setMessage('');
-        console.log(email, username, password);
+        // console.log(email, username, password);
 
         if (password !== confirmPassword) {
             setMessage('รหัสผ่านและยืนยันรหัสผ่านไม่ตรงกัน');
@@ -39,7 +39,6 @@ const RegisterPage: React.FC = () => {
             const data = await response.json();
             if (response.ok) {
                 setMessage('สมัครสมาชิกสำเร็จ!');
-                console.log('Login successful:', data);
                 router.push('/frontend/?show=login');
             } else {
                 setMessage(data.message || 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');
