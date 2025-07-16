@@ -273,7 +273,6 @@ const MainPage: React.FC = () => {
     } catch (err: any) {
       setShowDeleteConfirmModal(false);
       setDeleteQuoteId(null);
-      // alert('คุณได้ทำการโหวตคำคมไปแล้ว : 1 ผู้ใช้สามารถโหวตได้เพียง 1 คำคมเท่านั้น');
     }
   };
 

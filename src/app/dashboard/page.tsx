@@ -45,7 +45,7 @@ interface VoteCategory {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
-const DashboardPage = () => { // Removed async keyword
+const DashboardPage = () => {
     const [quotes, setQuotes] = useState<Quote[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -62,7 +62,7 @@ const DashboardPage = () => { // Removed async keyword
         }
 
         try {
-            const response = await fetch('http://localhost:3001/qoute', { // Fixed typo: qoute -> quote
+            const response = await fetch('http://localhost:3001/qoute', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -109,7 +109,6 @@ const DashboardPage = () => { // Removed async keyword
         })).sort((a, b) => b.quoteCount - a.quoteCount);
     };
 
-    // ประมวลผลข้อมูลสำหรับ Vote Distribution Chart
     const processVoteDistribution = (): VoteDistribution[] => {
         const voteCounts = quotes.reduce((acc, quote) => {
             const votes = quote.votesPoint || 0;
@@ -133,7 +132,6 @@ const DashboardPage = () => { // Removed async keyword
         })).sort((a, b) => b.count - a.count);
     };
 
-    // ประมวลผลข้อมูลสำหรับ Vote Categories Pie Chart
     const processVoteCategories = (): VoteCategory[] => {
         const categories = quotes.reduce((acc, quote) => {
             const votes = quote.votesPoint || 0;
@@ -182,7 +180,6 @@ const DashboardPage = () => { // Removed async keyword
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
             </div>
 
-            {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
                     <h3 className="text-sm font-medium text-gray-500">Total Quotes</h3>
@@ -208,10 +205,8 @@ const DashboardPage = () => { // Removed async keyword
                 </div>
             </div>
 
-            {/* Charts Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-                {/* User Activity Bar Chart */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">
                         User Activity - จำนวน Quote ต่อผู้ใช้
@@ -238,7 +233,6 @@ const DashboardPage = () => { // Removed async keyword
                     </ResponsiveContainer>
                 </div>
 
-                {/* Vote Distribution Bar Chart */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">
                         Vote Distribution - การกระจายของคะแนนโหวต
@@ -264,7 +258,6 @@ const DashboardPage = () => { // Removed async keyword
                     </ResponsiveContainer>
                 </div>
 
-                {/* Vote Categories Pie Chart */}
                 <div className="bg-white p-6 rounded-lg shadow-md lg:col-span-2">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">
                         Vote Categories - สัดส่วนหมวดหมู่คะแนนโหวต
@@ -296,7 +289,6 @@ const DashboardPage = () => { // Removed async keyword
                 </div>
             </div>
 
-            {/* Data Table */}
             <div className="bg-white p-6 rounded-lg shadow-md">
                 <h2 className="text-xl font-semibold text-gray-800 mb-4">
                     User Activity Summary

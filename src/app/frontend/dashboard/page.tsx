@@ -46,7 +46,7 @@ interface VoteCategory {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
-const DashboardPage = () => { // Removed async keyword
+const DashboardPage = () => { 
     const [quotes, setQuotes] = useState<Quote[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -110,7 +110,6 @@ const DashboardPage = () => { // Removed async keyword
         })).sort((a, b) => b.quoteCount - a.quoteCount);
     };
 
-    // ประมวลผลข้อมูลสำหรับ Vote Distribution Chart
     const processVoteDistribution = (): VoteDistribution[] => {
         const voteCounts = quotes.reduce((acc, quote) => {
             const votes = quote.votesPoint || 0;
@@ -134,7 +133,6 @@ const DashboardPage = () => { // Removed async keyword
         })).sort((a, b) => b.count - a.count);
     };
 
-    // ประมวลผลข้อมูลสำหรับ Vote Categories Pie Chart
     const processVoteCategories = (): VoteCategory[] => {
         const categories = quotes.reduce((acc, quote) => {
             const votes = quote.votesPoint || 0;
@@ -237,7 +235,6 @@ const DashboardPage = () => { // Removed async keyword
                         </ResponsiveContainer>
                     </div>
 
-                    {/* Vote Distribution Bar Chart */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">
                             Vote Distribution - การกระจายของคะแนนโหวต
@@ -263,7 +260,6 @@ const DashboardPage = () => { // Removed async keyword
                         </ResponsiveContainer>
                     </div>
 
-                    {/* Vote Categories Pie Chart */}
                     <div className="bg-white p-6 rounded-lg shadow-md lg:col-span-2">
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">
                             Vote Categories - สัดส่วนหมวดหมู่คะแนนโหวต
@@ -295,7 +291,6 @@ const DashboardPage = () => { // Removed async keyword
                     </div>
                 </div>
 
-                {/* Data Table */}
                 <div className="bg-white p-6 rounded-lg shadow-md">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">
                         User Activity Summary

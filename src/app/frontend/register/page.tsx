@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Import useRouter from next/navigation
+import { useRouter } from 'next/navigation';
 import BackGroudApp, { BackGroudAppFront } from '../../../../components/layout';
 
 const RegisterPage: React.FC = () => {
@@ -40,7 +40,6 @@ const RegisterPage: React.FC = () => {
             if (response.ok) {
                 setMessage('สมัครสมาชิกสำเร็จ!');
                 console.log('Login successful:', data);
-                // router.push('/frontend/');
                 router.push('/frontend/?show=login');
             } else {
                 setMessage(data.message || 'อีเมลหรือรหัสผ่านไม่ถูกต้อง');

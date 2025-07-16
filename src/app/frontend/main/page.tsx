@@ -25,7 +25,7 @@ const MainPage: React.FC = () => {
   const [showVoteConfirmModal, setShowVoteConfirmModal] = useState(false);
   const [voteQuoteId, setVoteQuoteId] = useState<string | null>(null);
   const [quotesToShow, setQuotesToShow] = useState<number>(QUOTES_PER_PAGE);
-  const [filterVotes, setFilterVotes] = useState<string>('all'); // New state for vote filtering
+  const [filterVotes, setFilterVotes] = useState<string>('all');
 
 
 

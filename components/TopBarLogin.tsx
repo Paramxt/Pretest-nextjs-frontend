@@ -22,14 +22,14 @@ const TopBarLogin = ({ onSelectPage, selectedIndex }: TopBarProps) => {
           <div className="flex items-center justify-end gap-3">
             <button
               onClick={() => onSelectPage(1)}
-              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-5 py-3 text-base font-semibold text-white shadow-sm transition-all duration-150 hover:bg-amber-600" // Increased px, py, and text-base
+              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-5 py-3 text-base font-semibold text-white shadow-sm transition-all duration-150 hover:bg-amber-600"
             >
               <UserPlus className="w-4 h-4 mr-1" />
               สมัครสมาชิค
             </button>
             <button
               onClick={() => onSelectPage(0)}
-              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-5 py-3 text-base font-semibold text-white shadow-sm transition-all duration-150 hover:bg-amber-600" // Increased px, py, and text-base
+              className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-5 py-3 text-base font-semibold text-white shadow-sm transition-all duration-150 hover:bg-amber-600"
             >
               <LogIn className="w-4 h-4 mr-1" />
               เข้าสู่ระบบ
